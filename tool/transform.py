@@ -22,8 +22,11 @@ class fisheye(object):
     def __init__(self, dist_coeffs=[-1, 1, 0, 0]):
         self.dist_coeffs = dist_coeffs
       
-    def __call__(self, image):
-        return self.fisheye_distortion(image, self.dist_coeffs)
+    def __call__(self, image, mask=None):
+        if mask is None:
+            return self.fisheye_distortion(image, self.dist_coeffs)
+        else:
+            return self.fisheye_distortion(image, self.dist_coeffs), self.fisheye_distortion(mask, self.dist_coeffs)
 
     def fisheye_distortion(self, image, dist_coeffs):
         # 이미지 크기 가져오기
