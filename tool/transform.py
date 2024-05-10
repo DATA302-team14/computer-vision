@@ -32,6 +32,9 @@ class fisheye(object):
     def fisheye_distortion(self, image, dist_coeffs):
         # 이미지 크기 가져오기
         height, width = image.shape[:2]
+        if len(image.shape) == 2:
+            image[image==255] = 12
+            image[image==0] = 255
 
         # 카메라 매트릭스 생성
         focal_length = width / 4
@@ -46,7 +49,8 @@ class fisheye(object):
 
         # 왜곡 보정
         undistorted_image = cv2.undistort(image, camera_matrix, dist_coeffs)
-
+        undistorted_image[undistorted_image==0] = 12
+        undistorted_image[undistorted_image==255] = 0
         return undistorted_image
 
 def main():
