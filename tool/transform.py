@@ -49,8 +49,9 @@ class fisheye(object):
 
         # 왜곡 보정
         undistorted_image = cv2.undistort(image, camera_matrix, dist_coeffs)
-        undistorted_image[undistorted_image==0] = 12
-        undistorted_image[undistorted_image==255] = 0
+        if len(image.shape) == 2:
+            undistorted_image[undistorted_image==0] = 12
+            undistorted_image[undistorted_image>12] = 0
         return undistorted_image
 
 def main():
